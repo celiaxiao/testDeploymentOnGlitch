@@ -1,0 +1,30 @@
+{
+    "scripts": {
+        "start": "node --experimental-modules source/service/server/server.mjs",
+        "dev": "nodemon source/service/server/server.js",
+        "test": "cypress run & node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
+        "unittest": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --detectOpenHandles",
+        "start-server": "npm start",
+        "ci": "start-server-and-test start-server http://localhost:3030 test"
+    },
+    "jest": {
+        "verbose": true,
+        "testRegex": "__tests__/.*\\.test\\.js$",
+        "transform": {}
+    },
+    "dependencies": {
+        "@babel/core": "^7.16.0",
+        "@babel/node": "^7.16.0",
+        "cloudinary": "^1.27.1",
+        "fastify": "^3.24.1",
+        "fastify-cors": "^6.0.2",
+        "fastify-multipart": "^5.1.0",
+        "fastify-static": "^4.5.0",
+        "fs": "^0.0.1-security",
+        "ignore-errors": "^2.0.0",
+        "import-http": "^0.3.1",
+        "nedb": "^1.8.0",
+        "path": "^0.12.7"
+    },
+    "type": "module"
+}
