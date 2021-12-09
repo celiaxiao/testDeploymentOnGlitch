@@ -26,12 +26,12 @@ async function init() {
     let scrollLeftButton = document.querySelector("#scrollLeft");
     let scrollRightButton = document.querySelector("#scrollRight");
 
-    searchButton.addEventListener("click", async function() {
+    searchButton.addEventListener("click", async function () {
         submitNewSearch();
 
     });
 
-    searchBar.addEventListener("keydown", async function(event) {
+    searchBar.addEventListener("keydown", async function (event) {
         // If enter key is pressed, suppress default rerouting and submit search
         if (event.keyCode === 13) {
             event.preventDefault();
@@ -39,7 +39,7 @@ async function init() {
         }
     });
 
-    scrollRightButton.addEventListener("click", async function() {
+    scrollRightButton.addEventListener("click", async function () {
         if (curr_page < max_page) {
             curr_page++;
             let results = await submitSearch(searchBar.value, selectedTags, curr_page);
@@ -48,7 +48,7 @@ async function init() {
         }
     });
 
-    scrollLeftButton.addEventListener("click", async function() {
+    scrollLeftButton.addEventListener("click", async function () {
         if (curr_page > 1) {
             curr_page--;
             let results = await submitSearch(searchBar.value, selectedTags, curr_page);
@@ -89,15 +89,15 @@ async function submitNewSearch() {
 }
 
 function addTags(e) {
-    
+
     //Difficulty
     let tagsList = document.getElementById("tagsListDiff");
     tagsList.style.display = "grid";
     for (let i of difficultyTags) {
         let addTagButton = document.createElement("button");
         addTagButton.classList.add("tagButton");
-        addTagButton.innerText = difficultyTags[i];
-        addTagButton.id = difficultyTags[i];
+        addTagButton.innerText = i;
+        addTagButton.id = i;
         tagsList.appendChild(addTagButton);
     }
 
@@ -107,8 +107,8 @@ function addTags(e) {
     for (let i of mealTimeTags) {
         let addTagButton = document.createElement("button");
         addTagButton.classList.add("tagButton");
-        addTagButton.innerText = mealTimeTags[i];
-        addTagButton.id = mealTimeTags[i];
+        addTagButton.innerText = i;
+        addTagButton.id = i;
         tagsList.appendChild(addTagButton);
     }
 
@@ -118,8 +118,8 @@ function addTags(e) {
     for (let i of dietaryTags) {
         let addTagButton = document.createElement("button");
         addTagButton.classList.add("tagButton");
-        addTagButton.innerText = dietaryTags[i];
-        addTagButton.id = dietaryTags[i];
+        addTagButton.innerText = i;
+        addTagButton.id = i;
         tagsList.appendChild(addTagButton);
     }
 }

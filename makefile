@@ -5,3 +5,4 @@ sync:
 update:
 	git add .
 	git commit -m "syncing with main"
+	git push origin master
