@@ -1,30 +1,25 @@
-#userInfo #myScrollLeft,
-#userInfo #myScrollRight,
-#userInfo #savedScrollLeft,
-#userInfo #savedScrollRight {
-    /* border-style:solid; */
-    background-color: #4e598c;
-    color: white;
-    border-color: white;
-    padding: 15px 20px;
-    border-radius: 2cm;
-}
-
-#userInfo #myScrollLeft:hover,
-#userInfo #myScrollRight:hover,
-#userInfo #savedScrollLeft:hover,
-#userInfo #savedScrollRight:hover {
-    /* border-style:solid; */
-    /*background-color: #fcaf58;*/
-    color: white;
-    border-color: white;
-    border-radius: 2cm;
-}
-
-.userInfoGridContainer {
+.myUploadRecipeCardGridContainer {
+    max-height: 480px;
+    overflow: auto;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     padding: 10px;
+    margin: 20px;
+    align-items: center;
+    text-align: center;
+    gap: 8%;
+}
+
+.mySavedRecipeCardGridContainer {
+    max-height: 480px;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+    margin: 20px;
+    align-items: center;
+    text-align: center;
+    gap: 8%;
 }
 
 
@@ -34,14 +29,13 @@
     text-align: center;
 }
 
-h1 {
-    line-height: 0px;
+#userName {
+    margin: 0;
 }
 
-.myRecipeCardGridContainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 10px;
+#notProfile {
+    border-radius: 50%;
+    border: 3px white solid;
 }
 
 #userCard {
@@ -50,7 +44,7 @@ h1 {
     background-color: #d6d6d6;
     border-radius: 2cm;
     font-family: "Open Sans", sans-serif;
-    margin-bottom: 600px;
+    margin-bottom: 50px;
     box-shadow: 2px 2px #4e598c;
 }
 

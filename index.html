@@ -6,14 +6,15 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Landing Page</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <meta name="google-signin-client_id" content="693762448631-0tvigeijomhobgb0hj5c0di2dn0ppj5n.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+        content="693762448631-0tvigeijomhobgb0hj5c0di2dn0ppj5n.apps.googleusercontent.com">
 
     <!-- Style Imports -->
     <link rel='stylesheet' href="/source/assets/styles/baseStyle.css">
     <link rel='stylesheet' href="/source/assets/styles/cards.css">
     <link rel='stylesheet' href="/source/assets/styles/editCreate.css">
     <link rel='stylesheet' href="/source/assets/styles/recipeDetail.css">
-    <link rel='stylesheet' href="/source/assets/styles/homePage.css">
+    <link rel='stylesheet' href="/source/assets/styles/landingTags.css">
     <link rel='stylesheet' href="/source/assets/styles/userInfo.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +31,8 @@
     <script src="/source/scripts/index.js" type="module"></script>
     <script src="/source/scripts/disqus.js" type="module"></script>
 
-    <meta name="google-signin-client_id" content="693762448631-0tvigeijomhobgb0hj5c0di2dn0ppj5n.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+        content="693762448631-0tvigeijomhobgb0hj5c0di2dn0ppj5n.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
     <script src="/source/scripts/userLogin.js" type="module"></script>
     <script src="/source/scripts/userInfo.js" type="module"></script>
@@ -77,14 +79,22 @@
                     <input id="searchButton" type="button" name="submit" value="Search">
                 </form>
             </div>
-            <div id="selectTag" class="formItem">
-                <div id="tagsList">
+                <ul id="tagsTitles">
+                    <li class="tagsCategory">
+                        <p>Difficulty</p>
+                        <div id="tagsListDiff" class="tagsList"></div>
+                    </li>
+                    <li class="tagsCategory" id="middleCategory">
+                        <p>Meal Time</p>
+                        <div id="tagsListMt" class="tagsList"></div>
+                    </li>
+                    <li class="tagsCategory">
+                        <p>Dietary</p>
+                        <div id="tagsListDiet" class="tagsList"></div>
+                    </li>
+
                     <!-- populated in indexSearch.js -->
-                </div>
-            </div>
-            <!-- <div id="submit" class="formItem">
-                <input type="submit" value="Submit" id="submitButton">
-            </div> -->
+                </ul>
         </div>
 
         <!-- Recipe Section -->
@@ -92,41 +102,26 @@
 
         <div id="homePageScrollButton" class="homePageScrollButton">
             <input type="button" id="scrollLeft" value='<'>
+            <div id="homePageNum" class="homePageNum">Page: 1</div>
             <input type="button" id="scrollRight" value='>'>
         </div>
+
     </section>
 
     <!-- home page -->
     <section id="homePage">
-        <!-- <div id="header">
-            imported from navBarWithGoogle.js
-        </div>
-        <div class="searchBarHomePage">
-            <form class="searchItems" class="formItem" action='source/scripts/indexSearch.js'
-                id="searchBarFormHomepage">
-                <input type="search" name="keyword" id="searchBarHome" placeholder="Search...">
-                <input type="button" name="submit" id="searchButtonHome" value="Search">
-            </form>
-        </div>
-        <div id="selectTag" class="formItem">
-            <div id="tagsList">
-                populated in indexSearch.js
-            </div>
-        </div>
-        <div id="submit" class="formItem">
-            <input type="submit" value="Submit" id="submitButton">
-        </div>
-        <div class="myRecipeCardGridContainer"> </div>     -->
+
     </section>
 
     <!-- recipe detail page -->
     <section id="recipeDetail">
+        <!-- <button id="backToHome">Back</button> -->
 
         <!-- buttons for edit and delete -->
         <button id="editRecipeButton">Edit</button>
         <button id="deleteRecipeButton">Delete</button>
         <button id="saveRecipeButton"></button>
-        
+
         <!-- Displaying recipe title, creation date, author-->
         <p id="recipeTitle">Recipe title</p>
         <div id="dateAuthor">
@@ -191,21 +186,22 @@
                 grid-template-columns: 1fr 2fr;
                 padding: 10px;
             }
-            
+
             .userInfoGridItem {
                 padding: 20px;
                 font-size: 30px;
                 text-align: center;
             }
-            
-            h1 {
-                line-height: 0px;
-            }
-            
+
             .myRecipeCardGridContainer {
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr;
                 padding: 10px;
+            }
+
+            #userInfoRecipeBoxes {
+                display: grid;
+                justify-content: center;
             }
         </style>
         <div class="userInfoGridContainer">
@@ -220,18 +216,10 @@
             <div class="userInfoGridItem">
 
                 <h1 id="myRecipes"> My Recipes </h1>
-                <div id="myRecipeScroll">
-                    <input type="button" id="myScrollLeft" value='<'>
-                    <input type="button" id="myScrollRight" value='>'>
-                </div>
                 <div class="myUploadRecipeCardGridContainer">
                 </div>
 
                 <h1 id="savedRecipes"> Saved Recipes </h1>
-                <div id="savedRecipeScroll">
-                    <input type="button" id="savedScrollLeft" value='<'>
-                    <input type="button" id="savedScrollRight" value='>'>
-                </div>
                 <div class="savedRecipes">
 
                     <div class="mySavedRecipeCardGridContainer">
@@ -250,7 +238,7 @@
 
                 <div id="name" class="formItem">
                     <label for="name">Recipe Name: *</label>
-                    <input type="text" name="name" id="name" required>
+                    <input type="text" name="name" id="name" placeholder="A creative name" required>
                 </div>
 
                 <div id="picture" class="formItem">
@@ -261,23 +249,23 @@
 
                 <div id="description" class="formItem">
                     <label for="description">Description:</label>
-                    <textarea name="description" id="descriptionText"></textarea>
+                    <textarea name="description" id="descriptionText" placeholder="Tell us about your recipe!"></textarea>
                 </div>
                 <!-- Tags will be sent to the backend as a big comma delimited string -->
                 <div id="tags" class="formItem">
-                    <label for="tags">Tags:</label>
-                    <input type="text" name="tags" id="tags">
+                    <label for="tags">Tags: (separate by comma)</label>
+                    <input type="text" name="tags" id="tags" placeholder="tag1, tag2, tag3">
                 </div>
 
 
                 <div id="cookTime" class="formItem">
                     <label for="cookTime">Cook Time:</label>
-                    <input type="text" name="cookTime" id="prepTime">
+                    <input type="text" name="cookTime" id="prepTime" placeholder="x hours">
                 </div>
 
                 <div id="servingSize" class="formItem">
                     <label for="servingSize">Serving Size:</label>
-                    <input type="text" name="servingSize" id="servingSize">
+                    <input type="text" name="servingSize" id="servingSize" placeholder="x people">
                 </div>
                 <!-- Users can select from 1 star or 5 stars of difficulty with a dropdown menu -->
                 <div id="difficulty" class="formItem">
@@ -336,7 +324,7 @@
 
                 <div id="editName" class="formItem">
                     <label for="name">Recipe Name: *</label>
-                    <input type="text" name="name" id="name" required>
+                    <input type="text" name="name" id="name" placeholder="A creative name" required>
 
                 </div>
 
@@ -348,23 +336,23 @@
 
                 <div id="editDescription" class="formItem">
                     <label for="description">Description:</label>
-                    <textarea name="description" id="descriptionText"></textarea>
+                    <textarea name="description" id="descriptionText" placeholder="Tell us about your recipe!"></textarea>
                 </div>
 
                 <div id="editTags" class="formItem">
-                    <label for="tags">Tags:</label>
-                    <input type="text" name="tags" id="tags">
+                    <label for="tags">Tags: (separate by comma)</label>
+                    <input type="text" name="tags" id="tags" placeholder="tag1, tag2, tag3">
                 </div>
 
 
                 <div id="editCookTime" class="formItem">
                     <label for="cookTime">Cook Time:</label>
-                    <input type="text" name="cookTime" id="prepTime">
+                    <input type="text" name="cookTime" id="prepTime" placeholder="x hours">
                 </div>
 
                 <div id="editServingSize" class="formItem">
                     <label for="servingSize">Serving Size:</label>
-                    <input type="text" name="servingSize" id="servingSize">
+                    <input type="text" name="servingSize" id="servingSize" placeholder="x people">
                 </div>
 
                 <div id="editDifficulty" class="formItem">
@@ -419,7 +407,8 @@
 
     <!-- footer -->
     <footer>
-        <iframe src="/source/cards/footer.html" title="" onload="this.insertAdjacentHTML('afterend', (this.contentDocument.body||this.contentDocument).innerHTML);this.remove()"></iframe>
+        <iframe src="/source/cards/footer.html" title=""
+            onload="this.insertAdjacentHTML('afterend', (this.contentDocument.body||this.contentDocument).innerHTML);this.remove()"></iframe>
     </footer>
 
 </body>

@@ -7,7 +7,10 @@ if (typeof window === 'object') {
 import { submitSearch, submitInitialSearch } from "./APICalls.js"
 import { createRecipeCards } from "./index.js";
 
-let allTags = ["Easy", "Intermediate", "Hard", "Vegetarian", "Breakfast", "Dinner", "Appetizer", "Lunch", "Vegan"];
+let allTags = ["Easy", "Intermediate", "Hard", "Vegetarian", "Breakfast", "Lunch", "Dinner", "Appetizer", "Dessert", "Vegan"];
+let difficultyTags = ["Easy", "Intermediate", "Hard"];
+let mealTimeTags = ["Breakfast", "Lunch", "Dinner", "Appetizer", "Dessert"];
+let dietaryTags = ["Vegetarian", "Vegan"];
 let selectedTags = [];
 let curr_page = 1;
 let max_page = 1;
@@ -24,43 +27,40 @@ async function init() {
     let scrollRightButton = document.querySelector("#scrollRight");
 
     searchButton.addEventListener("click", async function() {
-        let searchResults = await submitInitialSearch(searchBar.value, selectedTags);
-        createRecipeCards(searchResults.results);
-        curr_page = 1;
-        max_page = searchResults.pages.pages;
+        submitNewSearch();
+
     });
 
     searchBar.addEventListener("keydown", async function(event) {
         // If enter key is pressed, suppress default rerouting and submit search
-        if(event.keyCode === 13){
+        if (event.keyCode === 13) {
             event.preventDefault();
-            let searchResults = await submitInitialSearch(searchBar.value, selectedTags);
-            createRecipeCards(searchResults.results);
-            curr_page = 1;
-            max_page = searchResults.pages.pages;
+            submitNewSearch();
         }
     });
 
     scrollRightButton.addEventListener("click", async function() {
-        if(curr_page < max_page){
+        if (curr_page < max_page) {
             curr_page++;
             let results = await submitSearch(searchBar.value, selectedTags, curr_page);
             createRecipeCards(results);
+            document.getElementById('homePageNum').innerHTML = 'Page: ' + curr_page + ' / ' + max_page;
         }
     });
 
     scrollLeftButton.addEventListener("click", async function() {
-        if(curr_page > 1) {
+        if (curr_page > 1) {
             curr_page--;
             let results = await submitSearch(searchBar.value, selectedTags, curr_page);
             createRecipeCards(results);
+            document.getElementById('homePageNum').innerHTML = 'Page: ' + curr_page + ' / ' + max_page;
         }
     });
 
-    let tagsSelect = document.getElementById("tagsList");
+    let tagsSelect = document.getElementById("tagsTitles");
     // console.log(tagsSelect);
     if (tagsSelect) {
-        chooseTag(this);
+        addTags(this);
         let tagButtons = document.getElementsByClassName("tagButton");
         for (let i = 0; i < tagButtons.length; i++) {
             //e.stopPropagation();
@@ -78,18 +78,48 @@ async function init() {
 
         }
     }
-
-
 }
 
-function chooseTag(e) {
-    let tagsList = document.querySelector("#tagsList");
+async function submitNewSearch() {
+    let searchResults = await submitInitialSearch(searchBar.value, selectedTags);
+    createRecipeCards(searchResults.results);
+    curr_page = 1;
+    max_page = searchResults.pages.pages;
+    document.getElementById('homePageNum').innerHTML = 'Page: ' + curr_page + ' / ' + max_page;
+}
+
+function addTags(e) {
+    
+    //Difficulty
+    let tagsList = document.getElementById("tagsListDiff");
     tagsList.style.display = "grid";
-    for (let i = 0; i < allTags.length; i++) {
+    for (let i of difficultyTags) {
         let addTagButton = document.createElement("button");
         addTagButton.classList.add("tagButton");
-        addTagButton.innerText = allTags[i];
-        addTagButton.id = allTags[i];
+        addTagButton.innerText = difficultyTags[i];
+        addTagButton.id = difficultyTags[i];
+        tagsList.appendChild(addTagButton);
+    }
+
+    //Meal Time
+    tagsList = document.getElementById("tagsListMt");
+    tagsList.style.display = "grid";
+    for (let i of mealTimeTags) {
+        let addTagButton = document.createElement("button");
+        addTagButton.classList.add("tagButton");
+        addTagButton.innerText = mealTimeTags[i];
+        addTagButton.id = mealTimeTags[i];
+        tagsList.appendChild(addTagButton);
+    }
+
+    //Dietary
+    tagsList = document.getElementById("tagsListDiet");
+    tagsList.style.display = "grid";
+    for (let i of dietaryTags) {
+        let addTagButton = document.createElement("button");
+        addTagButton.classList.add("tagButton");
+        addTagButton.innerText = dietaryTags[i];
+        addTagButton.id = dietaryTags[i];
         tagsList.appendChild(addTagButton);
     }
 }
@@ -107,6 +137,7 @@ function clickedOnATag(e) {
         e.style.borderColor = "#4e598c";
         selectedTags.push(e.innerText);
     }
+    submitNewSearch();
 }
 /** 
 function onHover(e) {
@@ -132,8 +163,6 @@ function offHover(e) {
 /**
  * Initial render of recipe cards. 
  */
-export async function initialRecipeCards () {
-    let initialResults = await submitInitialSearch(searchBar.value, selectedTags);
-    createRecipeCards(initialResults.results);
-    max_page = initialResults.pages.pages;
+export async function initialRecipeCards() {
+    submitNewSearch();
 }

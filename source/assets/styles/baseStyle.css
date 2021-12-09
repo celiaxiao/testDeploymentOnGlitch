@@ -22,6 +22,7 @@ body {
 
 #landingPage {
     background-color: #ededed;
+    overflow: hidden;
 }
 
 .myRecipeCardGridContainer {
@@ -30,16 +31,17 @@ body {
 
 #homePageScrollButton {
     background-color: #ededed;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    width: 100%;
 }
 
 
 /*
 Landing Background
 */
-
-#landingPage {
-    overflow: hidden;
-}
 
 #homepage .landingHeader,
 #landingPage .landingHeader {
@@ -64,8 +66,20 @@ Search Bar
     border: solid 1px #CCC;
 }
 
+#homepage #homePageNum,
+#landingPage #homePageNum {
+    /* border-style:solid; */
+    /*background-color: #fcaf58;*/
+    color: #4e598c;
+    font-size: 110%;
+    margin-inline: 10px;
+    /* margin-left: 165px; */
+    /* padding-bottom: 20px; */
+}
+
 #homepage #searchButton,
 #landingPage #searchButton {
+    font-weight: bold;
     width: 20%;
     padding: 10px;
     background: transparent;
@@ -190,10 +204,6 @@ Tags
     display: inline;
 }
 
-#landingPage #scrollLeft {
-    margin-left: 150px;
-}
-
 #homepage #scrollLeft,
 #homepage #scrollRight,
 #landingPage #scrollLeft,
@@ -204,7 +214,6 @@ Tags
     border-color: white;
     padding: 15px 20px;
     border-radius: 2cm;
-    margin-bottom: 20px;
 }
 
 #homepage #scrollLeft:hover,
@@ -225,12 +234,15 @@ Tags
 #homepage .myRecipeCardGridContainer,
 #landingPage .myRecipeCardGridContainer {
     display: grid;
+    gap:8%;
     grid-template-columns: 1fr 1fr 1fr;
     padding: 10px;
     margin: 20px;
     align-items: center;
     text-align: center;
     align-content: center;
+    padding-top: 30px;
+    padding-bottom: 20px;
 }
 
 #homepage .recipeCard,
@@ -250,9 +262,16 @@ Tags
     font-size: large;
 }
 
+
+
 /* important for routing */
+
 section:not(section.shown) {
     display: none;
+}
+
+.recipe-card {
+    margin:auto;
 }
 
 /*
