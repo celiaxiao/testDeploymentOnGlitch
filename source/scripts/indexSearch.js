@@ -1,34 +1,42 @@
-//This file is when the user searches a keyword in index.html page
-import { createNodeClone } from './util.js';
-export default { init, initialRecipeCards }
-if (typeof window === 'object') {
+/**
+ * Filename: indexSearch.js
+ * 
+ * @file Populates tags and binds search functionality to the search bar and tags.
+ * @since 12.09.21
+ */
+import { createNodeClone } from "./util.js";
+export default { init, initialRecipeCards };
+if (typeof window === "object") {
     window.addEventListener("DOMContentLoaded", init);
 }
-import { submitSearch, submitInitialSearch } from "./APICalls.js"
+import {
+    submitSearch,
+    submitInitialSearch,
+ } from "./APICalls.js";
+
 import { createRecipeCards } from "./index.js";
 
-let allTags = ["Easy", "Intermediate", "Hard", "Vegetarian", "Breakfast", "Lunch", "Dinner", "Appetizer", "Dessert", "Vegan"];
-let difficultyTags = ["Easy", "Intermediate", "Hard"];
-let mealTimeTags = ["Breakfast", "Lunch", "Dinner", "Appetizer", "Dessert"];
-let dietaryTags = ["Vegetarian", "Vegan"];
+const difficultyTags = ["Easy", "Intermediate", "Hard"];
+const mealTimeTags = ["Breakfast", "Lunch", "Dinner", "Appetizer", "Dessert"];
+const dietaryTags = ["Vegetarian", "Vegan"];
 let selectedTags = [];
 let curr_page = 1;
 let max_page = 1;
+
 /**
- * initializes search functionality through the frontend
+ * Ties search functionality to the search bar, buttons and tags,
+ * populates tags and adds click event listener for styling and search.
  */
 async function init() {
-    // TODO: Make sure this works for both landing and home pages
-    createNodeClone('#searchBar', true);
+    
+    //Search bar and button
+    createNodeClone("#searchBar", true);
+    createNodeClone("#searchButton", true);
     let searchBar = document.querySelector("#searchBar");
-    createNodeClone('#searchButton', true);
     let searchButton = document.querySelector("#searchButton");
-    let scrollLeftButton = document.querySelector("#scrollLeft");
-    let scrollRightButton = document.querySelector("#scrollRight");
 
     searchButton.addEventListener("click", async function () {
         submitNewSearch();
-
     });
 
     searchBar.addEventListener("keydown", async function (event) {
@@ -39,91 +47,112 @@ async function init() {
         }
     });
 
+    //Page scroll buttons
+    let scrollLeftButton = document.querySelector("#scrollLeft");
+    let scrollRightButton = document.querySelector("#scrollRight");
+
     scrollRightButton.addEventListener("click", async function () {
         if (curr_page < max_page) {
             curr_page++;
-            let results = await submitSearch(searchBar.value, selectedTags, curr_page);
+            let results = await submitSearch(
+                searchBar.value,
+                selectedTags,
+                curr_page
+            );
             createRecipeCards(results);
-            document.getElementById('homePageNum').innerHTML = 'Page: ' + curr_page + ' / ' + max_page;
+            document.getElementById("homePageNum").innerHTML =
+                "Page: " + curr_page + " / " + max_page;
         }
     });
 
     scrollLeftButton.addEventListener("click", async function () {
         if (curr_page > 1) {
             curr_page--;
-            let results = await submitSearch(searchBar.value, selectedTags, curr_page);
+            let results = await submitSearch(
+                searchBar.value,
+                selectedTags,
+                curr_page
+            );
             createRecipeCards(results);
-            document.getElementById('homePageNum').innerHTML = 'Page: ' + curr_page + ' / ' + max_page;
+            document.getElementById("homePageNum").innerHTML =
+                "Page: " + curr_page + " / " + max_page;
         }
     });
 
+    //Populate tags
     let tagsSelect = document.getElementById("tagsTitles");
-    // console.log(tagsSelect);
     if (tagsSelect) {
-        addTags(this);
+        addTags();
         let tagButtons = document.getElementsByClassName("tagButton");
         for (let i = 0; i < tagButtons.length; i++) {
-            //e.stopPropagation();
-            tagButtons[i].addEventListener('click', (e) => {
+            tagButtons[i].addEventListener("click", () => {
                 clickedOnATag(tagButtons[i]);
             });
-            /** 
-                        tagButtons[i].addEventListener('mouseover', (e) => {
-                            onHover(tagButtons[i]);
-                        });
-                        tagButtons[i].addEventListener('mouseout', (e) => {
-                            offHover(tagButtons[i]);
-                        });
-                        */
-
         }
     }
 }
 
+/**
+ * Refreshes displayed recipes with new search results.
+ */
 async function submitNewSearch() {
-    let searchResults = await submitInitialSearch(searchBar.value, selectedTags);
+    /* eslint-disable no-undef */
+    let searchResults = await submitInitialSearch(
+        searchBar.value,
+        selectedTags
+    );
+    /* eslint-enable no-undef */
     createRecipeCards(searchResults.results);
     curr_page = 1;
     max_page = searchResults.pages.pages;
-    document.getElementById('homePageNum').innerHTML = 'Page: ' + curr_page + ' / ' + max_page;
+    document.getElementById("homePageNum").innerHTML =
+        "Page: " + curr_page + " / " + max_page;
 }
 
-function addTags(e) {
-
+/**
+ * Populates the tags into a grid by category.
+ */
+function addTags() {
+    
     //Difficulty
     let tagsList = document.getElementById("tagsListDiff");
     tagsList.style.display = "grid";
-    for (let i of difficultyTags) {
+    for (let name of difficultyTags) {
         let addTagButton = document.createElement("button");
         addTagButton.classList.add("tagButton");
-        addTagButton.innerText = i;
-        addTagButton.id = i;
+        addTagButton.innerText = name;
+        addTagButton.id = name;
         tagsList.appendChild(addTagButton);
     }
 
     //Meal Time
     tagsList = document.getElementById("tagsListMt");
     tagsList.style.display = "grid";
-    for (let i of mealTimeTags) {
+    for (let name of mealTimeTags) {
         let addTagButton = document.createElement("button");
         addTagButton.classList.add("tagButton");
-        addTagButton.innerText = i;
-        addTagButton.id = i;
+        addTagButton.innerText = name;
+        addTagButton.id = name;
         tagsList.appendChild(addTagButton);
     }
 
     //Dietary
     tagsList = document.getElementById("tagsListDiet");
     tagsList.style.display = "grid";
-    for (let i of dietaryTags) {
+    for (let name of dietaryTags) {
         let addTagButton = document.createElement("button");
         addTagButton.classList.add("tagButton");
-        addTagButton.innerText = i;
-        addTagButton.id = i;
+        addTagButton.innerText = name;
+        addTagButton.id = name;
         tagsList.appendChild(addTagButton);
     }
 }
 
+/**
+ * Populates the tags into a grid by category.
+ * 
+ * @param e The tag element
+ */
 function clickedOnATag(e) {
     let index = selectedTags.indexOf(e.innerText);
     if (index > -1) {
@@ -139,29 +168,9 @@ function clickedOnATag(e) {
     }
     submitNewSearch();
 }
-/** 
-function onHover(e) {
-    let index = selectedTags.indexOf(e.innerText);
-    if (index > -1) {
-        e.style.backgroundColor = "#f9c784";
-        e.style.borderColor = "#f9c784";
-    } else {
-        e.style.backgroundColor = "#4e598c";
-        e.style.borderColor = "#4e598c";
-    }
-}
-
-function offHover(e) {
-    let index = selectedTags.indexOf(e.innerText);
-    if (index > -1) {
-        e.style.backgroundColor = "#fcaf58";
-        e.style.borderColor = "#fcaf58";
-    } 
-}
-*/
 
 /**
- * Initial render of recipe cards. 
+ * Initial render of recipe cards.
  */
 export async function initialRecipeCards() {
     submitNewSearch();
